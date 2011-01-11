@@ -1,0 +1,39 @@
+project: c-named-params
+author: Benjamin Petrin
+
+description:
+
+These macros provide simple "named parameter"-like behavior in c programs. The
+trouble of processing the parameters is abstracted away from the programmer.
+This work was inspired by the usage of some of the libCurl functions.
+
+example:
+
+You can define a function like this:
+
+int openfile(NAMED){
+        INIT_ARGS(
+                /*   type   name      default value            */
+                ARG(char*, filename, "/home/me/default_file.txt")
+                ARG(char*, user_buff, NULL)
+                ARG(int, user_buff_ln, 0)
+                ARG(char**, buff, NULL)
+        )
+
+....
+}
+
+And then call it like this:
+
+        openfile(CALL(
+                N(user_buff, buffer),
+                N(user_buff_ln, buffer_ln)
+        ));
+
+Or with different parameters like this:
+
+        openfile(CALL(
+                N(filename, "test.txt"),
+                N(buff, &caller_freed)
+        ));
+
